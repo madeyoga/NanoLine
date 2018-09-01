@@ -63,10 +63,10 @@ def handle_message(event):
     
     elif message_content[0] == "n!anime":
         post = gag_client.get_post_from(Sections.ANIME_MANGA)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=post.title)
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=post.title)
+        # )
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -77,10 +77,10 @@ def handle_message(event):
 
     elif message_content[0] == "n!wtf":
         post = gag_client.get_post_from(Sections.WTF)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=post.title)
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=post.title)
+        # )
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -91,10 +91,10 @@ def handle_message(event):
 
     elif message_content[0] == "n!kpop":
         post = gag_client.get_post_from(Sections.KPOP)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=post.title)
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=post.title)
+        # )
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -105,10 +105,10 @@ def handle_message(event):
 
     elif message_content[0] == "n!savage":
         post = gag_client.get_post_from(Sections.SAVAGE)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=post.title)
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=post.title)
+        # )
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -119,10 +119,10 @@ def handle_message(event):
     
     elif message_content[0] == "n!comic":
         post = gag_client.get_post_from(Sections.COMIC)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=post.title)
-        )
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=post.title)
+        # )
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -130,8 +130,6 @@ def handle_message(event):
                 preview_image_url=post.get_media_url()
             )
         )
-    
-
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
