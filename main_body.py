@@ -9,11 +9,11 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage
 )
 
-from gag_core import Gag
-from gag_core import Sections
+from gag_core import Gag, Sections
+from gag_core import Reddit, Subreddits
 
 app = Flask(__name__)
 ## LINE CLIENT
@@ -23,9 +23,11 @@ handler = WebhookHandler(str(os.environ.get('LINE_SECRET')))
 ## 9GAG CLIENT
 gag_client = Gag()
 
+## REDDIT CLIENT
+reddit_client = Reddit()
+
 @app.route("/callback", methods=['POST'])
 def callback():
-    print("callback")
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
     
@@ -61,73 +63,175 @@ def handle_message(event):
             TextSendMessage(text="( ͡° ͜ʖ ͡°)")
         )
     
-    elif message_content[0] == "n!anime":
+    elif message_content[0] == "n!9anime":
         post = gag_client.get_post_from(Sections.ANIME_MANGA)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text=post.title)
-        # )
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-                original_content_url=post.get_media_url(),
-                preview_image_url=post.get_media_url()
+        if post.type == "Photo":
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    original_content_url=post.get_media_url(),
+                    preview_image_url=post.get_media_url()
+                )
             )
-        )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                VideoSendMessage(
+                    original_content_url=post.get_media_url()
+                )
+            )
 
-    elif message_content[0] == "n!wtf":
+    elif message_content[0] == "n!9wtf":
         post = gag_client.get_post_from(Sections.WTF)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text=post.title)
-        # )
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-                original_content_url=post.get_media_url(),
-                preview_image_url=post.get_media_url()
+        if post.type == "Photo":
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    original_content_url=post.get_media_url(),
+                    preview_image_url=post.get_media_url()
+                )
             )
-        )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                VideoSendMessage(
+                    original_content_url=post.get_media_url()
+                )
+            )
 
-    elif message_content[0] == "n!kpop":
+    elif message_content[0] == "n!9kpop":
         post = gag_client.get_post_from(Sections.KPOP)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text=post.title)
-        # )
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(
-                original_content_url=post.get_media_url(),
-                preview_image_url=post.get_media_url()
+        if post.type == "Photo":
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    original_content_url=post.get_media_url(),
+                    preview_image_url=post.get_media_url()
+                )
             )
-        )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                VideoSendMessage(
+                    original_content_url=post.get_media_url()
+                )
+            )
 
-    elif message_content[0] == "n!savage":
+    elif message_content[0] == "n!9savage":
         post = gag_client.get_post_from(Sections.SAVAGE)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text=post.title)
-        # )
+        if post.type == "Photo":
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    original_content_url=post.get_media_url(),
+                    preview_image_url=post.get_media_url()
+                )
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                VideoSendMessage(
+                    original_content_url=post.get_media_url()
+                )
+            )
+    
+    elif message_content[0] == "n!9comic":
+        post = gag_client.get_post_from(Sections.COMIC)
+        if post.type == "Photo":
+            line_bot_api.reply_message(
+                event.reply_token,
+                ImageSendMessage(
+                    original_content_url=post.get_media_url(),
+                    preview_image_url=post.get_media_url()
+                )
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                VideoSendMessage(
+                    original_content_url=post.get_media_url()
+                )
+            )
+
+    elif message_content[0] == "n!scathach":
+        submission = reddit_client.get_submission(Subreddits.SCATHACH)
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
-                original_content_url=post.get_media_url(),
-                preview_image_url=post.get_media_url()
+                original_content_url=submission.url,
+                preview_image_url=submission.url
             )
         )
-    
-    elif message_content[0] == "n!comic":
-        post = gag_client.get_post_from(Sections.COMIC)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text=post.title)
-        # )
+    elif message_content[0] == "n!fgo":
+        submission = reddit_client.get_submission(Subreddits.GRANDORDER)
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
-                original_content_url=post.get_media_url(),
-                preview_image_url=post.get_media_url()
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!animemes":
+        submission = reddit_client.get_submission(Subreddits.ANIMEMES)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!anime":
+        submission = reddit_client.get_submission(Subreddits.ANIME)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!meme":
+        submission = reddit_client.get_submission(Subreddits.MEMES)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!dank":
+        submission = reddit_client.get_submission(Subreddits.DANKMEMES)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!wtf":
+        submission = reddit_client.get_submission(Subreddits.WTF)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!waifu":
+        submission = reddit_client.get_submission(Subreddits.WAIFU)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!fgoart":
+        submission = reddit_client.get_submission(Subreddits.DANKMEMES)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
             )
         )
 
