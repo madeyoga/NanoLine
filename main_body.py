@@ -226,7 +226,7 @@ def handle_message(event):
             )
         )
     elif message_content[0] == "n!fgoart":
-        submission = reddit_client.get_submission(Subreddits.DANKMEMES)
+        submission = reddit_client.get_submission(Subreddits.FGOFANART)
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
