@@ -12,8 +12,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage
 )
 
-from gag_core import Gag, Sections
-from gag_core import Reddit, Subreddits
+from ImageCore import Gag, Sections
+from ImageCore import Reddit, Subreddits
 
 app = Flask(__name__)
 ## LINE CLIENT
@@ -234,6 +234,16 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+    elif message_content[0] == "n!azurlane":
+        submission = reddit_client.get_submission(Subreddits.AZURELANE)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
