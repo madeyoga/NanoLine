@@ -1,3 +1,6 @@
 [submodule "nineapi"]
 	path = nineapi
 	url = https://github.com/and3rson/nineapi.git
+[submodule "core/nineapi"]
+	path = core/nineapi
+	url = https://github.com/and3rson/nineapi.git
