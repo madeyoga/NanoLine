@@ -12,8 +12,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage
 )
 
-from .ImageCore import Gag, Sections
-from .ImageCore import Reddit, Subreddits
+from ImageCore import Gag, Sections
+from ImageCore import Reddit, Subreddits
 
 app = Flask(__name__)
 ## LINE CLIENT
