@@ -66,7 +66,11 @@ def handle_message(event):
             - flip
             - rng     usage: n!rng 100
             Image:
+            - tsun
             - scathach
+            - illyasviel
+            - raikou
+            - fateprisma
             - fgo
             - fgoart
             - animeme
@@ -76,6 +80,7 @@ def handle_message(event):
             - dank
             - wtf
             - azurlane
+            - search   usage: n!search <keywords>
         """
         line_bot_api.reply_message(
             event.reply_token,
@@ -184,7 +189,54 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+
+    elif message_content[0] == "n!illya":
+        submission = reddit_client.get_submission(Subreddits.ILLYASVIEL)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+
+    elif message_content[0] == "n!raikou":
+        submission = reddit_client.get_submission(Subreddits.MAMARAIKOU)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!fgocomics":
+        submission = reddit_client.get_submission(Subreddits.FGOCOMICS)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
         
+    elif message_content[0] == "n!fprisma":
+        submission = reddit_client.get_submission(Subreddits.FATEPRISMAILLYA)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+    elif message_content[0] == "n!saber":
+        submission = reddit_client.get_submission(Subreddits.SABER)
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
     elif message_content[0] == "n!flip":
         number = random.randint(0,2)
         if number == 0:
@@ -203,7 +255,17 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=str(number))
         )
-    
+        
+    elif message_content[0] == "n!search":
+        submission = reddit_client.search_get_submission('all').search(message_content[1])
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
+        
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

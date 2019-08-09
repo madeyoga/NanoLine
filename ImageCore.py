@@ -1,4 +1,4 @@
-# from core.nineapi.nineapi.client import  Client, APIException
+from core.nineapi.nineapi.client import  Client, APIException
 import os
 import random
 
@@ -39,20 +39,36 @@ class Subreddits:
     ANIMEMES        = "Animemes"
     AWWNIME         = "awwnime"
     AZURELANE       = "AzureLane"
-    TSUNDERES       = "Tsunderes"      
+    TSUNDERES       = "Tsunderes"
     ANIMEWALLPAPER  = "Animewallpaper"  # ANIME WALLPAPER ARTS
     MOESCAPE        = "Moescape"        # ANIME WALLPAPER ARTS
+    MAMARAIKOU      = "MamaRaikou"
+    SABER           = "Saber"
+    FGOCOMICS       = "FGOcomics"
+    FATEPRISMAILLYA = "FatePrismaIllya"
+    ILLYASVIEL      = "Illyasviel"
 
 class Reddit:
     def __init__(self):
         self.reddit = praw.Reddit (
-            client_id     = str(os.environ.get('REDDIT_CLIENT_ID')),
-            client_secret = str(os.environ.get('REDDIT_CLIENT_SECRET')),
-            user_agent    = str(os.environ.get('REDDIT_USER_AGENT'))
+            client_id     = config.REDDIT_CLIENT_ID,
+            client_secret = config.REDDIT_CLIENT_SECRET,
+            user_agent    = config.REDDIT_USER_AGENT
         )
-    
+
     def get_submission(self, subreddit):
         submissions = list(self.reddit.subreddit(subreddit).hot())
+        while True:
+            submission = random.choice(submissions)
+            if not submission.stickied and '.' in str(submission.url)[-5:]:
+                break
+        return submission
+
+    def search_post(self, keyword):
+        return self.reddit.subreddit('all').search(keyword)
+        
+    def search_get_post(self, keyword):
+        submissions = list(self.reddit.subreddit('all').search(keyword))
         while True:
             submission = random.choice(submissions)
             if not submission.stickied and '.' in str(submission.url)[-5:]:
