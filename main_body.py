@@ -12,7 +12,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, VideoSendMessage
 )
 
-# from ImageCore import Gag, Sections
+from ImageCore import Gag, Sections
 from ImageCore import Reddit, Subreddits
 
 import random
@@ -23,7 +23,7 @@ line_bot_api = LineBotApi(str( os.environ.get('LINE_ACCESS_TOKEN') ))
 handler = WebhookHandler(str(os.environ.get('LINE_SECRET')))
 
 ## 9GAG CLIENT
-# gag_client = Gag()
+gag_client = Gag()
 
 ## REDDIT CLIENT
 reddit_client = Reddit()
@@ -79,7 +79,7 @@ def handle_message(event):
         """
         line_bot_api.reply_message(
             event.reply_token,
-            text=help_text
+            TextSendMessage(text=help_text)
             )
     
     elif message_content[0] == "n!lenny":
