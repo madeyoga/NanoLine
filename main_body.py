@@ -23,7 +23,7 @@ line_bot_api = LineBotApi(str( os.environ.get('LINE_ACCESS_TOKEN') ))
 handler = WebhookHandler(str(os.environ.get('LINE_SECRET')))
 
 ## 9GAG CLIENT
-gag_client = Gag()
+# gag_client = Gag()
 
 ## REDDIT CLIENT
 reddit_client = Reddit()
