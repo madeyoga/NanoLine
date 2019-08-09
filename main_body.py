@@ -238,7 +238,7 @@ def handle_message(event):
             )
         )
     elif message_content[0] == "n!abby":
-        submission = reddit_client.search_get_post('all').search("fate abby")
+        submission = reddit_client.search_get_post("fate abby")
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
@@ -266,7 +266,7 @@ def handle_message(event):
         )
         
     elif message_content[0] == "n!search":
-        submission = reddit_client.search_get_post('all').search(message_content[1])
+        submission = reddit_client.search_get_post(message_content[1])
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
