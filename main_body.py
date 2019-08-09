@@ -15,6 +15,8 @@ from linebot.models import (
 from ImageCore import Gag, Sections
 from ImageCore import Reddit, Subreddits
 
+import random
+
 app = Flask(__name__)
 ## LINE CLIENT
 line_bot_api = LineBotApi(str( os.environ.get('LINE_ACCESS_TOKEN') ))
@@ -56,102 +58,35 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=message_content[1])
         )
+
+    if message_content[0] == "n!help":
+        help_text = "Command List\nprefix: 'n!'"
+        help_text += """
+            Fun:
+            - flip
+            - rng     usage: n!rng 100
+            Image:
+            - scathach
+            - fgo
+            - fgoart
+            - animeme
+            - anime
+            - waifu
+            - meme
+            - dank
+            - wtf
+            - azurlane
+        """
+        line_bot_api.reply_message(
+            event.reply_token,
+            text=help_text
+            )
     
     elif message_content[0] == "n!lenny":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="( ͡° ͜ʖ ͡°)")
         )
-    
-    elif message_content[0] == "n!9anime":
-        post = gag_client.get_post_from(Sections.ANIME_MANGA)
-        if post.type == "Photo":
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=post.get_media_url(),
-                    preview_image_url=post.get_media_url()
-                )
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                VideoSendMessage(
-                    original_content_url=post.get_media_url()
-                )
-            )
-
-    elif message_content[0] == "n!9wtf":
-        post = gag_client.get_post_from(Sections.WTF)
-        if post.type == "Photo":
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=post.get_media_url(),
-                    preview_image_url=post.get_media_url()
-                )
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                VideoSendMessage(
-                    original_content_url=post.get_media_url()
-                )
-            )
-
-    elif message_content[0] == "n!9kpop":
-        post = gag_client.get_post_from(Sections.KPOP)
-        if post.type == "Photo":
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=post.get_media_url(),
-                    preview_image_url=post.get_media_url()
-                )
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                VideoSendMessage(
-                    original_content_url=post.get_media_url()
-                )
-            )
-
-    elif message_content[0] == "n!9savage":
-        post = gag_client.get_post_from(Sections.SAVAGE)
-        if post.type == "Photo":
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=post.get_media_url(),
-                    preview_image_url=post.get_media_url()
-                )
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                VideoSendMessage(
-                    original_content_url=post.get_media_url()
-                )
-            )
-    
-    elif message_content[0] == "n!9comic":
-        post = gag_client.get_post_from(Sections.COMIC)
-        if post.type == "Photo":
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=post.get_media_url(),
-                    preview_image_url=post.get_media_url()
-                )
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                VideoSendMessage(
-                    original_content_url=post.get_media_url()
-                )
-            )
 
     elif message_content[0] == "n!scathach":
         submission = reddit_client.get_submission(Subreddits.SCATHACH)
@@ -171,7 +106,8 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
-    elif message_content[0] == "n!animemes":
+        
+    elif message_content[0] == "n!animeme":
         submission = reddit_client.get_submission(Subreddits.ANIMEMES)
         line_bot_api.reply_message(
             event.reply_token,
@@ -189,6 +125,7 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+        
     elif message_content[0] == "n!meme":
         submission = reddit_client.get_submission(Subreddits.MEMES)
         line_bot_api.reply_message(
@@ -198,6 +135,7 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+        
     elif message_content[0] == "n!dank":
         submission = reddit_client.get_submission(Subreddits.DANKMEMES)
         line_bot_api.reply_message(
@@ -207,6 +145,7 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+        
     elif message_content[0] == "n!wtf":
         submission = reddit_client.get_submission(Subreddits.WTF)
         line_bot_api.reply_message(
@@ -225,6 +164,7 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+        
     elif message_content[0] == "n!fgoart":
         submission = reddit_client.get_submission(Subreddits.FGOFANART)
         line_bot_api.reply_message(
@@ -234,6 +174,7 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+        
     elif message_content[0] == "n!azurlane":
         submission = reddit_client.get_submission(Subreddits.AZURELANE)
         line_bot_api.reply_message(
@@ -243,8 +184,26 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
-    
+        
+    elif message_content[0] == "n!flip":
+        number = random.randint(0,2)
+        if number == 0:
+            text = "head"
+        else:
+            text = "tail"
+            
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=text)
+        )
 
+    elif message_content[0] == "n!rng":
+        number = random.randint(0, int(message_content[1]))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(number))
+        )
+    
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
