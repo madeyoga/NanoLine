@@ -51,9 +51,9 @@ class Subreddits:
 class Reddit:
     def __init__(self):
         self.reddit = praw.Reddit (
-            client_id     = config.REDDIT_CLIENT_ID,
-            client_secret = config.REDDIT_CLIENT_SECRET,
-            user_agent    = config.REDDIT_USER_AGENT
+            client_id     = str(os.environ.get('REDDIT_CLIENT_ID')),
+            client_secret = str(os.environ.get('REDDIT_CLIENT_SECRET')),
+            user_agent    = str(os.environ.get('REDDIT_USER_AGENT'))
         )
 
     def get_submission(self, subreddit):
