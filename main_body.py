@@ -237,6 +237,15 @@ def handle_message(event):
                 preview_image_url=submission.url
             )
         )
+    elif message_content[0] == "n!abby":
+        submission = reddit_client.search_get_submission('all').search("fate abby")
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url=submission.url,
+                preview_image_url=submission.url
+            )
+        )
     elif message_content[0] == "n!flip":
         number = random.randint(0,2)
         if number == 0:
